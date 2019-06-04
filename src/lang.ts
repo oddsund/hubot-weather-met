@@ -6,6 +6,8 @@ export async function initializeLanguage(lang: string = "no") {
     resources: {
       no: {
         translation: {
+          rain: "regn",
+          details: "detaljer",
           "No rain": "Det kommer (antakeligvis) ikke til å regne de neste 1.5 timene.",
           "Not currently raining": "Det regner ikke nå, men det kommer til å regne om {{rainStart}} minutter.",
           "Rain starting as":
@@ -19,6 +21,8 @@ export async function initializeLanguage(lang: string = "no") {
       },
       en: {
         translation: {
+          rain: "rain",
+          details: "details",
           "No rain": "There will (probably) not be any rain for the next 1.5 hour.",
           "Not currently raining": "It's not raining now, but it's going to rain in {{rainStart}} minutes.",
           "Rain starting as":
