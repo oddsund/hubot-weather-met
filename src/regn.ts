@@ -2,6 +2,8 @@ import { NowCastResponse, TimeNode, EhancedRobot, EnhancedResponse } from "./typ
 import { CanvasRenderService } from "chartjs-node-canvas";
 import { WebClient } from "@slack/web-api";
 import { ChartConfiguration } from "chart.js";
+import i18next from "i18next";
+import { slackChannel } from ".";
 
 const orderTimeNodes = (first: TimeNode, second: TimeNode): number => {
   if (first.$.from < second.$.from) {
@@ -17,33 +19,30 @@ function noCurrentRain(precipitation: number[], max: number) {
   const rainStart = precipitation.slice(1).indexOf(firstRain) * 7.5 + 7.5;
   const timeleft = precipitation.slice(1).indexOf(max) * 7.5 + 7.5;
 
-  let answer = `Det regner ikke nå, men det kommer til å regne om ${rainStart} minutter.`;
+  const answer = i18next.t("Not currently raining", { rainStart });
   if (timeleft - rainStart > 0) {
-    answer += ` Det vil starte som ${firstRain} mm/t og ta seg opp til ${max} mm/t iløpet av ${timeleft -
-      rainStart} minutter.`;
-  } else {
-    answer += `Det vil da regne ${firstRain} mm/t.`;
+    return (
+      answer + i18next.t("Rain starting as", { startingMm: firstRain, maxMm: max, timeleft: timeleft - rainStart })
+    );
   }
-  return answer;
+  return answer + i18next.t("It will rain", { rainMm: firstRain });
 }
 
 function currentlyRaining(precipitation: number[], max: number) {
-  let answer = `Det regner ${precipitation[0]} mm/t nå, `;
-
+  const answer = i18next.t("Currently raining", { rainMm: precipitation[0] });
   const timeleft = precipitation.slice(1).indexOf(max) * 7.5 + 7.5;
 
-  if (max > precipitation[0]) {
-    answer += `og det kommer til å øke til ${max} mm/t innen(ca) ${timeleft} minutter.`;
-  } else {
+  if (max <= precipitation[0]) {
     const min = Math.min(...precipitation);
     const timeleftMin = precipitation.slice(1).indexOf(min) * 7.5 + 7.5;
     if (min == precipitation[0]) {
-      answer += `og det er ingen ende i syne!`;
+      return answer + i18next.t("No end in sight");
     } else {
-      answer += `men det kommer til å dabbe av til ${min} mm/t innen(ca) ${timeleftMin} minutter.`;
+      return answer + i18next.t("Rain will decrease", { rainMm: precipitation[0], timeleftMin });
     }
   }
-  return answer;
+
+  return answer + i18next.t("Rain will increase", { rainMm: precipitation[0], timeleft });
 }
 
 function createAnswerFromPrecipitation(precipitation: number[], max: number) {
@@ -121,13 +120,12 @@ async function makeAPicture(precipitation: number[], max: number, response: Enha
     }
   };
   webClient.files.upload({
-    channels: "ymse",
+    channels: slackChannel,
     initial_comment: createAnswerFromPrecipitation(precipitation, max),
     file: await canvasRenderService.renderToBuffer(configuration)
   });
 }
 
-// Should change response to the send function, but context seems to be dropped.
 export function parsePrecipitationAndSendAnswer(
   dataJson: NowCastResponse,
   response: EnhancedResponse,
@@ -137,7 +135,7 @@ export function parsePrecipitationAndSendAnswer(
   const precipitation = orderedTimePoints.map(value => parseFloat(value.location.precipitation.$.value));
   const max = Math.max(...precipitation);
   if (max === 0) {
-    response.send("Det kommer (antakeligvis) ikke til å regne de neste 2 timene.");
+    response.send(i18next.t("No rain"));
   } else if (sendPicture) {
     makeAPicture(precipitation, max, response);
   } else {
