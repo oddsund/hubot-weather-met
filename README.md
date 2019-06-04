@@ -23,7 +23,7 @@ The following environment variables has to be set;
 - **HUBOT_WEATHER_SLACK_CHANNEL** The slack channel where this bot is active
 - **HUBOT_WEATHER_LANG** The language which the bot should reply with and understand
 
-## Kommandoer
+## Commands
 
 - hubot rain(regn) -- gives a status about the rain on Grønland, Oslo. Add the word details(detaljer) to also get a graph of the rain for the next 1.5 hours.
 - hubot været -- show the weather at Grønland, Oslo, right now
