@@ -1,0 +1,41 @@
+{
+  "name": "hubot-weather-met",
+  "version": "0.1.0",
+  "description": "Hubot script for fetching weather through api.met.no(Meteorologisk Institutt)",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oddsund/hubot-weather-met.git"
+  },
+  "keywords": [
+    "hubot",
+    "hubot-scripts",
+    "weather"
+  ],
+  "author": "Thomas Oddsund",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oddsund/hubot-weather-met/issues"
+  },
+  "homepage": "https://github.com/oddsund/hubot-weather-met#readme",
+  "dependencies": {
+    "@slack/web-api": "^5.0.1",
+    "chart.js": "^2.8.0",
+    "chartjs-node-canvas": "^2.4.0",
+    "path": "^0.12.7",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "@types/chart.js": "^2.7.53",
+    "@types/hubot": "^2.19.5",
+    "@types/node": "^12.0.4",
+    "@types/scoped-http-client": "^0.11.0",
+    "@types/xml2js": "^0.4.4",
+    "typescript": "^3.5.1"
+  }
+}

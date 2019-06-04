@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "module": "commonjs"
+  },
+  "include": ["./src/**/*"]
+}
