@@ -142,3 +142,20 @@ export function parsePrecipitationAndSendAnswer(
     response.send(createAnswerFromPrecipitation(precipitation, max));
   }
 }
+
+export function parsePrecipitationCheckForUmbrellaAndSendAnswer(
+  dataJson: NowCastResponse,
+  response: EnhancedResponse,
+  sendPicture: boolean
+) {
+  const orderedTimePoints = dataJson.weatherdata.product.time.sort(orderTimeNodes);
+  const precipitation = orderedTimePoints.map(value => parseFloat(value.location.precipitation.$.value));
+  const firstRain = precipitation.findIndex(rain => rain > 0);
+  if (firstRain == -1) {
+    response.send(i18next.t("No umbrella"));
+  } else if (firstRain == 0) {
+    response.send(i18next.t("Need umbrella now"));
+  } else {
+    response.send(i18next.t("Umbrella later", { rainStart: firstRain * 7.5 + 7.5 }));
+  }
+}

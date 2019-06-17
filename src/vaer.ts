@@ -27,7 +27,7 @@
 
 import { Parser } from "xml2js";
 import { EhancedRobot, NowCastResponse, EnhancedResponse } from "./types";
-import { parsePrecipitationAndSendAnswer } from "./regn";
+import { parsePrecipitationAndSendAnswer, parsePrecipitationCheckForUmbrellaAndSendAnswer } from "./regn";
 import i18next from "i18next";
 
 const parser = new Parser({ explicitArray: false });
@@ -50,6 +50,31 @@ function vaer(robot: EhancedRobot): void {
       }
       parser.parseString(body, (_err: Error, dataJson: NowCastResponse) => {
         parsePrecipitationAndSendAnswer(
+          dataJson,
+          res as EnhancedResponse,
+          res.match[1] && res.match[1].includes(i18next.t("details"))
+        );
+      });
+    });
+  });
+
+  robot.respond(RegExp(i18next.t("umbrella")), res => {
+    robot
+      .http("https://api.met.no/weatherapi/nowcast/0.9/?lat=59.910808&lon=10.761530")
+      .header("Accept", "application/json")
+      .get()((err, response, body) => {
+      if (err !== null) {
+        robot.logger.info(`'regn' received a http error: ${err}`);
+        return;
+      }
+      if (response.statusCode !== 200) {
+        robot.logger.info(
+          `'regn' received a non-200 statuscode: ${response.statusCode} ${response.statusMessage}\nAborting..`
+        );
+        return;
+      }
+      parser.parseString(body, (_err: Error, dataJson: NowCastResponse) => {
+        parsePrecipitationCheckForUmbrellaAndSendAnswer(
           dataJson,
           res as EnhancedResponse,
           res.match[1] && res.match[1].includes(i18next.t("details"))
