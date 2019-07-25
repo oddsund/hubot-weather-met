@@ -6,6 +6,7 @@ export async function initializeLanguage(lang: string = "no") {
     resources: {
       no: {
         translation: {
+          weather: "været",
           umbrella: "paraply",
           "No umbrella": "Du trenger ikke paraply på en stund.",
           "Need umbrella now": "Du trenger paraply nå.",
@@ -20,11 +21,18 @@ export async function initializeLanguage(lang: string = "no") {
           "Currently raining": "Det regner {{rainMm}} mm nå, ",
           "Rain will increase": "og det kommer til å øke til {{rainMm}} mm innen(ca) {{timeleft}} minutter.",
           "No end in sight": "og det er ingen ende i syne!",
-          "Rain will decrease": "men det kommer til å dabbe av til {{rainMm}} mm innen(ca) {{timeleft}} minutter."
+          "Rain will decrease": "men det kommer til å dabbe av til {{rainMm}} mm innen(ca) {{timeleft}} minutter.",
+          help: `regn - gir en kort status om regn på Grønland, Oslo. Legg til ordet 'detaljer' for å få en graf over regnet.
+          paraply - gir deg beskjed om du trenger en paraply nå, eller om en liten stund
+          været - viser været på Grønland, Oslo, akkurat nå
+          værvarsel - viser værvarslet for uka
+          været imorgen - viser værvarslet for morgendagen
+          været *dag* - viser værvarslet for en gitt dag denne uken`
         }
       },
       en: {
         translation: {
+          weather: "weather",
           umbrella: "umbrella",
           "No umbrella": "You won't need an umbrella for a while.",
           "Need umbrella now": "You'll need an umbrella right now.",
@@ -39,7 +47,13 @@ export async function initializeLanguage(lang: string = "no") {
           "Currently raining": "It is currently raining {{rainMm}} mm, ",
           "Rain will increase": "and it will increase to {{rainMm}} mm within about {{timeleft}} minutes.",
           "No end in sight": "and there's no end in sight!",
-          "Rain will decrease": "but it will decrease to about {{rainMm}} mm within {{timeleft}} minutes."
+          "Rain will decrease": "but it will decrease to about {{rainMm}} mm within {{timeleft}} minutes.",
+          help: `rain - gives a short status about the rain at Grønland, Oslo. Add the word 'details' to also receive a graph of the rain.
+          umbrella - lets you know if you need an umbrella right now, or in a little while
+          weather - shows the weather at Grønland, Oslo, right now
+          forecast - show the forecast for the next week
+          weather tomorrow - show the forecast for tomorrow
+          weather *day* - show the forecast for a given day the next seven days`
         }
       }
     }

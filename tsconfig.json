@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./lib",
+    "outDir": "lib",
     "allowJs": true,
     "esModuleInterop": true,
-    "module": "commonjs"
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "lib": ["esnext", "es6", "dom"]
   },
   "include": ["./src/**/*"]
 }
